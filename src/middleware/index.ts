@@ -4,7 +4,7 @@ import { useAstroI18n } from "astro-i18n"
 const astroI18n = useAstroI18n(
 	{
 		primaryLocale: "en", // default app locale
-		secondaryLocales: [], // other supported locales
+		secondaryLocales: ["nl"], // other supported locales
 		fallbackLocale: "en", // fallback locale (on missing translation)
 		trailingSlash: "never", // "never" or "always"
 		run: "client+server", //"client+server" or "server"
