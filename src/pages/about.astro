@@ -5,6 +5,12 @@ import Layout from '../layouts/Layout.astro';
 
 console.log(astroI18n.locale);
 console.log(astroI18n.t('hello'));
+
+if (astroI18n.locale === 'nl') {
+  return Astro.redirect('/nl');
+} else {
+  return Astro.redirect('/');
+}
 ---
 
 <Layout title="Welcome to Astro.">
