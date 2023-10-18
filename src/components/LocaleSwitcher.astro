@@ -1,0 +1,42 @@
+---
+import { astroI18n, l } from 'astro-i18n';
+
+interface Props {
+  showCurrent: boolean;
+  labels: {
+    [locale: string]: string;
+  };
+}
+
+const { showCurrent = true, labels = {} } = Astro.props;
+
+const params: Record<string, string> = {};
+for (const [key, value] of Object.entries(Astro.params)) {
+  if (value === undefined) continue;
+  params[key] = String(value);
+}
+
+let links = astroI18n.locales.map((locale) => ({
+  locale,
+  href: l(Astro.url.pathname, params, {
+    targetLocale: locale,
+  }),
+  label: labels[locale] || locale.toUpperCase(),
+}));
+
+if (!showCurrent) {
+  links = links.filter((link) => link.locale !== astroI18n.locale);
+}
+---
+
+<nav>
+  <ul>
+    {
+      links.map(({ href, label }) => (
+        <li>
+          <a href={href}>{label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

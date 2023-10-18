@@ -1,19 +1,9 @@
 import { sequence } from "astro/middleware"
 import { useAstroI18n } from "astro-i18n"
+import astroI18nConfig from "../../astro-i18n.config"
 
 const astroI18n = useAstroI18n(
-	{
-		primaryLocale: "en", // default app locale
-		secondaryLocales: ["nl"], // other supported locales
-		fallbackLocale: "en", // fallback locale (on missing translation)
-		trailingSlash: "never", // "never" or "always"
-		run: "client+server", //"client+server" or "server"
-		showPrimaryLocale: false, // "/en/about" vs "/about"
-		translationLoadingRules: [], // per page group loading
-		translationDirectory: {}, // translation directory names
-		translations: {}, // { [translation_group1]: { [locale1]: {}, ... } }
-		routes: {}, // { [secondary_locale1]: { about: "about-translated", ... } }
-	},
+	astroI18nConfig,
 	undefined /* custom formatters */,
 )
 
