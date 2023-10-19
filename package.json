@@ -14,7 +14,7 @@
 		"i18n:sync": "npm run i18n:generate:pages && npm run i18n:generate:types"
 	},
 	"dependencies": {
-		"astro": "^3.3.1",
-		"astro-i18n": "^2.0.13"
+		"astro": "^3.3.2",
+		"astro-i18n": "^2.1.13"
 	}
 }
