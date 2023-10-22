@@ -22,6 +22,7 @@ export default defineAstroI18nConfig({
 	routes: {
 		"nl": {
 			'about': "over-ons",
+			"luxury-villa-rental": "luxe-villa-huren",
 		}
 	}, // { [secondary_locale1]: { about: "about-translated", ... } }
 })
