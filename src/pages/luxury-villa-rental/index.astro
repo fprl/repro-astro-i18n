@@ -3,6 +3,8 @@ import { getHouses } from '~/utils/houses';
 
 import Layout from '~/layouts/Layout.astro';
 import Listings from './_components/listings.svelte';
+import FiltersPersons from './_components/filters.persons.svelte';
+import FiltersBedrooms from './_components/filters.bedrooms.svelte';
 
 const results = await getHouses(Astro.url.searchParams, 'en', 1);
 ---
@@ -10,5 +12,12 @@ const results = await getHouses(Astro.url.searchParams, 'en', 1);
 <Layout title="Search page">
   <h1>Search page</h1>
 
-  <Listings client:idle info={results.info} listings={results.listings} />
+  <div class="space-y-4">
+    <div class="flex gap-x-4">
+      <FiltersPersons />
+      <FiltersBedrooms />
+    </div>
+  
+    <Listings client:idle info={results.info} listings={results.listings} />
+  </div>
 </Layout>
