@@ -14,7 +14,10 @@
 		"i18n:sync": "npm run i18n:generate:pages && npm run i18n:generate:types"
 	},
 	"dependencies": {
+		"@astrojs/vercel": "^5.0.2",
+		"@nanostores/router": "^0.11.0",
 		"astro": "^3.3.2",
-		"astro-i18n": "^2.1.13"
+		"astro-i18n": "^2.1.13",
+		"nanostores": "^0.9.4"
 	}
 }

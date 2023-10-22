@@ -7,9 +7,10 @@ console.log(astroI18n.locale);
 console.log(astroI18n.t('hello'));
 
 if (astroI18n.locale === 'nl') {
-  return Astro.redirect('/nl');
+  Astro.cookies.set('locale', 'nl');
+  return astroI18n.redirect('/nl');
 } else {
-  return Astro.redirect('/');
+  return astroI18n.redirect('/');
 }
 ---
 
