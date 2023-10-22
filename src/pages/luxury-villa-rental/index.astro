@@ -2,12 +2,13 @@
 import { getHouses } from '~/utils/houses';
 
 import Layout from '~/layouts/Layout.astro';
+import Listings from './_components/listings.svelte';
 
-const houses = await getHouses(Astro.url.searchParams, 'en', 1);
-
-console.log(houses);
+const results = await getHouses(Astro.url.searchParams, 'en', 1);
 ---
 
 <Layout title="Search page">
   <h1>Search page</h1>
+
+  <Listings client:idle info={results.info} listings={results.listings} />
 </Layout>
