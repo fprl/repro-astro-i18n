@@ -7,19 +7,36 @@ import Layout from '~/layouts/Layout.astro';
 import Listings from './_components/listings.svelte';
 import FiltersPersons from './_components/filters.persons.svelte';
 import FiltersBedrooms from './_components/filters.bedrooms.svelte';
-
-const results = await getHouses(Astro.url.searchParams, astroI18n.locale, 1);
 ---
 
 <Layout title="Search page">
-  <h1>Search page</h1>
+  <main id="search" class="mt-20 pb-8">
+    <h1>Search page</h1>
 
-  <div class="space-y-4">
-    <div class="flex gap-x-4">
-      <FiltersPersons client:click />
-      <FiltersBedrooms client:click />
+    <div class="space-y-4">
+      <div class="flex gap-x-4">
+        <FiltersPersons client:click />
+        <FiltersBedrooms client:click />
+      </div>
+
+      <!-- stream results and hydrate store -->
+      {
+        async () => {
+          const results = await getHouses(
+            Astro.url.searchParams,
+            astroI18n.locale,
+            1
+          );
+
+          return (
+            <Listings
+              client:idle
+              info={results.info}
+              listings={results.listings}
+            />
+          );
+        }
+      }
     </div>
-
-    <Listings client:idle info={results.info} listings={results.listings} />
-  </div>
+  </main>
 </Layout>
