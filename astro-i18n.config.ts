@@ -1,5 +1,8 @@
 import { defineAstroI18nConfig } from "astro-i18n"
 
+import commonEn from '~/i18n/common/en.json'
+import commonNl from '~/i18n/common/nl.json'
+
 export default defineAstroI18nConfig({
 	primaryLocale: "en", // default app locale
 	secondaryLocales: ["nl"], // other supported locales
@@ -11,12 +14,8 @@ export default defineAstroI18nConfig({
 	translationDirectory: {}, // translation directory names
 	translations: {
 		common: {
-			en: {
-				hi: "Hi",
-			},
-			nl: {
-				hi: "Hallo",
-			},
+			en: commonEn,
+			nl: commonNl,
 		}
 	}, // { [translation_group1]: { [locale1]: {}, ... } }
 	routes: {

@@ -1,4 +1,6 @@
 ---
+import { astroI18n, t } from 'astro-i18n';
+
 import { getHouses } from '~/utils/houses';
 
 import Layout from '~/layouts/Layout.astro';
@@ -6,7 +8,7 @@ import Listings from './_components/listings.svelte';
 import FiltersPersons from './_components/filters.persons.svelte';
 import FiltersBedrooms from './_components/filters.bedrooms.svelte';
 
-const results = await getHouses(Astro.url.searchParams, 'en', 1);
+const results = await getHouses(Astro.url.searchParams, astroI18n.locale, 1);
 ---
 
 <Layout title="Search page">
@@ -14,10 +16,10 @@ const results = await getHouses(Astro.url.searchParams, 'en', 1);
 
   <div class="space-y-4">
     <div class="flex gap-x-4">
-      <FiltersPersons />
-      <FiltersBedrooms />
+      <FiltersPersons client:click />
+      <FiltersBedrooms client:click />
     </div>
-  
+
     <Listings client:idle info={results.info} listings={results.listings} />
   </div>
 </Layout>

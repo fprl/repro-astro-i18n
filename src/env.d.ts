@@ -5,9 +5,9 @@
 type PrimaryLocale = "en"
 type SecondaryLocale = "nl"
 type Locale = PrimaryLocale | SecondaryLocale
-type RouteParameters = {"/about":undefined;"/":undefined;}
+type RouteParameters = {"/about":undefined;"/":undefined;"/luxury-villa-rental":undefined;}
 type Route = keyof RouteParameters
-type TranslationVariables = {"hi":object|undefined;"hello":object|undefined;}
+type TranslationVariables = {"hello":object|undefined;}
 type Translation = keyof TranslationVariables
 type Environment = "none"|"node"|"browser"
 declare module "astro-i18n" {

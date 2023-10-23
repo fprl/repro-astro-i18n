@@ -10,5 +10,5 @@ import clickDirective from './src/directives/register'
 export default defineConfig({
   output: 'server',
   adapter: vercel(),
-  integrations: [svelte(), tailwind({ applyBaseStyles: false }), /* clickDirective() */]
+  integrations: [svelte(), tailwind({ applyBaseStyles: false }), clickDirective()]
 });
