@@ -141,9 +141,8 @@ export interface HousesRes {
 }
 
 export function getHouses(
-  searchParams: URLSearchParams, locale: string = 'nl', pageNr: number = 1): Promise<HousesRes> {
+  filters: string, locale: string = 'nl', pageNr: number = 1): Promise<HousesRes> {
   // https://github.com/ljharb/qs
-  const filters = qs.stringify(searchParams);
   const resultsNr = 20;
 
   return Fetch<HousesRes>(

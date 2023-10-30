@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { getHouses, type HousesRes } from '~/utils/houses';
-  import { searchParams, changeSearchParam } from './_search-store';
 
   export let info: HousesRes['info'];
   export let listings: HousesRes['listings'] = [];
@@ -15,16 +14,6 @@
   $: isMoreResults = page < pages;
 
   onMount(() => (mounted = true));
-
-  searchParams.subscribe((params) => {
-    if (!mounted) return;
-    loading = true;
-    getHouses(params, 'en', 1).then((res) => {
-      info = res.info;
-      listings = res.listings;
-      loading = false;
-    });
-  });
 </script>
 
 {#if loading}
