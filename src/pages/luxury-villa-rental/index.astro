@@ -7,10 +7,12 @@ import Layout from '~/layouts/Layout.astro';
 import Listings from './_components/listings.svelte';
 import FiltersPersons from './_components/filters.persons.svelte';
 import FiltersBedrooms from './_components/filters.bedrooms.svelte';
+import FiltersDestination from './_components/filters.destination.svelte';
 
 const searchParams = Astro.url.searchParams;
 const bedrooms = searchParams.get('filters[bedrooms]');
 const persons = searchParams.get('filters[persons]');
+const destination = searchParams.get('destination');
 ---
 
 <Layout title="Search page">
@@ -21,6 +23,7 @@ const persons = searchParams.get('filters[persons]');
       <div class="flex gap-x-4">
         <FiltersPersons client:idle persons={persons} />
         <FiltersBedrooms client:idle bedrooms={bedrooms} />
+        <FiltersDestination client:idle destination={destination} />
       </div>
 
       <!-- stream results and hydrate store -->
