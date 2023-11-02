@@ -1,8 +1,6 @@
 import type { AstroGlobal } from 'astro'
 
 export default async function action(context: AstroGlobal) {
-  console.log('error');
-
   const { request, url } = context;
   const formData = await request.formData()
   const destination = formData.get('destination') || 'all';

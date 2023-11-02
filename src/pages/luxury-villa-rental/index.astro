@@ -42,7 +42,6 @@ if (
       status: 404,
     });
   } else {
-    console.log('time to execute function');
     return await action.default(Astro);
   }
 }
@@ -50,9 +49,15 @@ if (
 const formData = form?.data;
 
 const searchParams = Astro.url.searchParams;
-const bedrooms = searchParams.get('filters[bedrooms]');
-const persons = searchParams.get('filters[persons]');
+// const bedrooms = searchParams.get('filters[bedrooms]');
+// const persons = searchParams.get('filters[persons]');
 const destination = searchParams.get('destination');
+
+const destinations = [
+  { name: 'all', value: 'all', checked: destination === 'all' },
+  { name: 'ibiza', value: 'ibiza', checked: destination === 'ibiza' },
+  { name: 'mallorca', value: 'mallorca', checked: destination === 'mallorca' },
+];
 ---
 
 <Layout title="Search page">
@@ -64,38 +69,23 @@ const destination = searchParams.get('destination');
       <form action="?" method="post" class="border p-4 space-y-4">
         <h3>Destination</h3>
 
-        <div class="flex gap-x-2 items-center">
-          <input
-            id="all"
-            type="checkbox"
-            name="destination"
-            value="all"
-            class="w-fit border p-2"
-          />
-          <label for="all" class="font-medium">All</label>
-        </div>
-
-        <div class="flex gap-x-2 items-center">
-          <input
-            id="ibiza"
-            type="checkbox"
-            name="destination"
-            value="ibiza"
-            class="w-fit border p-2"
-          />
-          <label for="ibiza" class="font-medium">Ibiza</label>
-        </div>
-
-        <div class="flex gap-x-2 items-center">
-          <input
-            id="mallorca"
-            type="checkbox"
-            name="destination"
-            value="mallorca"
-            class="w-fit border p-2"
-          />
-          <label for="mallorca" class="font-medium">Mallorca</label>
-        </div>
+        {
+          destinations.map((destination) => (
+            <div class="flex gap-x-2 items-center">
+              <input
+                id={destination.name}
+                type="checkbox"
+                name="destination"
+                value={destination.value}
+                class="w-fit border p-2"
+                checked={destination.checked}
+              />
+              <label for={destination.name} class="font-medium">
+                {destination.name}
+              </label>
+            </div>
+          ))
+        }
 
         <button
           type="submit"
@@ -104,37 +94,38 @@ const destination = searchParams.get('destination');
         >
           Search villa
         </button>
-
-        {formData && <div>You submitted {formData?.destination}</div>}
       </form>
-    </div>
 
-    <div class="space-y-4">
-      <!-- <div class="flex gap-x-4">
+      {formData && <div>You submitted {formData?.destination}</div>}
+    </div>
+  </main>
+
+  <div class="space-y-4">
+    <!-- <div class="flex gap-x-4">
         <FiltersPersons client:idle persons={persons} />
         <FiltersBedrooms client:idle bedrooms={bedrooms} />
         <FiltersDestination client:idle destination={destination} />
       </div> -->
 
-      <!-- stream results and hydrate store -->
-      {
-        async () => {
-          const results = await getHouses(
-            Astro.url.search.slice(1),
-            astroI18n.locale,
-            1,
-          );
+    <!-- stream results and hydrate store -->
+    {
+      async () => {
+        const results = await getHouses(
+          Astro.url.search.slice(1),
+          astroI18n.locale,
+          1,
+        );
 
-          return (
-            <Listings
-              client:idle
-              info={results.info}
-              listings={results.listings}
-            />
-          );
-        }
+        return (
+          <Listings
+            client:idle
+            info={results.info}
+            listings={results.listings}
+          />
+        );
       }
-    </div>
-  </main>
+    }
+  </div>
 </Layout>
+
  ./_actions
