@@ -1,5 +1,12 @@
 /// <reference types="astro/client" />
 
+declare global {
+  namespace App {
+    interface Locals {
+      form: any
+    }
+  }
+}
 
 // ###> astro-i18n/type-generation ###
 type PrimaryLocale = "en"
@@ -204,3 +211,5 @@ declare module "astro-i18n" {
 	export const astroI18n: AstroI18n
 }
 // ###< astro-i18n/type-generation ###
+
+export {};

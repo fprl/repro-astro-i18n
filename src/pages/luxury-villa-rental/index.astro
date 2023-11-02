@@ -1,6 +1,9 @@
 ---
 import { astroI18n, t } from 'astro-i18n';
 
+import { actions } from './_actions';
+import Enhance from './_components/enhance.astro';
+
 import { getHouses } from '~/utils/houses';
 
 import Layout from '~/layouts/Layout.astro';
@@ -9,6 +12,38 @@ import FiltersPersons from './_components/filters.persons.svelte';
 import FiltersBedrooms from './_components/filters.bedrooms.svelte';
 import FiltersDestination from './_components/filters.destination.svelte';
 
+/* 
+  How does this works?
+
+  1. A user make a post request to the same page where the action points to the name of the function
+  
+  // if the Enhance component is used:
+  2. The function is called and the Astro instance is passed as argument
+  3. The function returns a response
+  4. The client gets the response without reloading the page thanks to the Enhance component
+
+  // if the Enhance component is not used:
+  
+ */
+
+const form = Astro.locals.form;
+
+if (
+  !form &&
+  Astro.url.searchParams.get('action') &&
+  Astro.request.method === 'POST'
+) {
+  const action = Astro.url.searchParams.get('action') as keyof typeof actions;
+  if (actions[action] === undefined)
+    return new Response(JSON.stringify({ message: 'Action not found' }), {
+      status: 404,
+    });
+
+  return await actions[action](Astro);
+}
+
+const formData = form?.data;
+
 const searchParams = Astro.url.searchParams;
 const bedrooms = searchParams.get('filters[bedrooms]');
 const persons = searchParams.get('filters[persons]');
@@ -16,15 +51,76 @@ const destination = searchParams.get('destination');
 ---
 
 <Layout title="Search page">
+  <Enhance />
   <main id="search" class="mt-20 pb-8" transition:animate="none">
     <h1>Search page</h1>
 
+    <div class="mb-8">
+      <form
+        id="destination"
+        action="?action=search"
+        method="post"
+        class="border p-4 space-y-4"
+      >
+        <h3>Destination</h3>
+
+        <div class="flex gap-x-2 items-center">
+          <input
+            id="all"
+            type="checkbox"
+            name="destination"
+            value="all"
+            class="w-fit border p-2"
+          />
+          <label for="all" class="font-medium">All</label>
+        </div>
+
+        <div class="flex gap-x-2 items-center">
+          <input
+            id="ibiza"
+            type="checkbox"
+            name="destination"
+            value="ibiza"
+            class="w-fit border p-2"
+          />
+          <label for="ibiza" class="font-medium">Ibiza</label>
+        </div>
+
+        <div class="flex gap-x-2 items-center">
+          <input
+            id="mallorca"
+            type="checkbox"
+            name="destination"
+            value="mallorca"
+            class="w-fit border p-2"
+          />
+          <label for="mallorca" class="font-medium">Mallorca</label>
+        </div>
+
+        <button
+          type="submit"
+          name="test"
+          class="border bg-primary text-primary-foreground px-4 py-2"
+        >
+          Search villa
+        </button>
+
+        {
+          formData && (
+            <div>
+              You submitted {formData?.destination}
+            </div>
+          )
+        }
+      </form>
+    </div>
+
     <div class="space-y-4">
-      <div class="flex gap-x-4">
+      <!-- <div class="flex gap-x-4">
         <FiltersPersons client:idle persons={persons} />
         <FiltersBedrooms client:idle bedrooms={bedrooms} />
         <FiltersDestination client:idle destination={destination} />
-      </div>
+      </div> -->
 
       <!-- stream results and hydrate store -->
       {
@@ -47,3 +143,4 @@ const destination = searchParams.get('destination');
     </div>
   </main>
 </Layout>
+ ./_actions
