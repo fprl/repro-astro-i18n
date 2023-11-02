@@ -1,7 +1,7 @@
 ---
 import { astroI18n, t } from 'astro-i18n';
 
-import { actions } from './_actions';
+// import action from './_actions';
 import Enhance from './_components/enhance.astro';
 
 import { getHouses } from '~/utils/houses';
@@ -30,16 +30,21 @@ const form = Astro.locals.form;
 
 if (
   !form &&
-  Astro.url.searchParams.get('action') &&
+  // Astro.url.searchParams.get('action') &&
   Astro.request.method === 'POST'
 ) {
-  const action = Astro.url.searchParams.get('action') as keyof typeof actions;
-  if (actions[action] === undefined)
+  // import action from './_actions';
+  const action = await import('./_actions');
+
+  // check if action is a function
+  if (typeof action.default !== 'function') {
     return new Response(JSON.stringify({ message: 'Action not found' }), {
       status: 404,
     });
-
-  return await actions[action](Astro);
+  } else {
+    console.log('time to execute function');
+    return await action.default(Astro);
+  }
 }
 
 const formData = form?.data;
@@ -56,12 +61,7 @@ const destination = searchParams.get('destination');
     <h1>Search page</h1>
 
     <div class="mb-8">
-      <form
-        id="destination"
-        action="?action=search"
-        method="post"
-        class="border p-4 space-y-4"
-      >
+      <form action="?" method="post" class="border p-4 space-y-4">
         <h3>Destination</h3>
 
         <div class="flex gap-x-2 items-center">
@@ -105,13 +105,7 @@ const destination = searchParams.get('destination');
           Search villa
         </button>
 
-        {
-          formData && (
-            <div>
-              You submitted {formData?.destination}
-            </div>
-          )
-        }
+        {formData && <div>You submitted {formData?.destination}</div>}
       </form>
     </div>
 

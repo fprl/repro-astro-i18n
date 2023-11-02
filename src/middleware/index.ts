@@ -10,10 +10,7 @@ const astroI18n = useAstroI18n(
 const actionsMiddleware = defineMiddleware(async (context, next) => {
 	const isFetch = context.request.headers.get('X-Requested-With') === 'XMLHttpRequest';
 
-	if (!isFetch && context.request.method === 'POST' && context.url.searchParams.get('action')) {
-		console.log('post');
-		// console.log(context);
-
+	if (!isFetch && context.request.method === 'POST' /* && context.url.searchParams.get('action') */) {
 		// get formData
 		const formData = await context.request.formData();
 

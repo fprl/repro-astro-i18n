@@ -1,16 +1,15 @@
 import type { AstroGlobal } from 'astro'
 
-export const actions = {
-  search: async (context: AstroGlobal) => {
-    const { request, url } = context;
-    const formData = await request.formData()
-    const destination = formData.get('destination');
+export default async function action(context: AstroGlobal) {
+  console.log('error');
+  
+  const { request, url } = context;
+  const formData = await request.formData()
+  const destination = formData.get('destination');
 
 
-    return redirect(`${url.pathname}?destination=${destination}`, context);
-  },
-};
-
+  return redirect(`${url.pathname}?destination=${destination}`, context);
+}
 
 function redirect(location: string, context: AstroGlobal) {
   const isFetch = context.request.headers.get('X-Requested-With') === 'XMLHttpRequest';
