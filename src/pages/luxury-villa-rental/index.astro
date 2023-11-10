@@ -15,6 +15,8 @@ if (Astro.request.method === 'POST') {
   return Astro.redirect(`/luxury-villa-rental?destination=${destination}`);
 }
 
+Astro.response.headers.set('Cache-Control', 's-maxage=60')
+
 const searchParams = Astro.url.searchParams;
 // const bedrooms = searchParams.get('filters[bedrooms]');
 // const persons = searchParams.get('filters[persons]');

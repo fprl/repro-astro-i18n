@@ -4,8 +4,6 @@ import { astroI18n } from 'astro-i18n';
 const BASE_URL_SYSTEM = 'https://system.huishurenibiza.nl';
 
 export const GET = async (Astro: AstroGlobal) => {
-  Astro.response.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=2678400")
-
   const locale = astroI18n.locale;
   const filters = Astro.url.search.slice(1);
 
@@ -17,9 +15,7 @@ export const GET = async (Astro: AstroGlobal) => {
   })
 
   return new Response(
-    JSON.stringify({
-      ...results,
-    }),
+    JSON.stringify({ ...results, }), { headers: { "Cache-Control": "s-maxage=60" } }
   )
 }
 
