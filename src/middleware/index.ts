@@ -7,26 +7,4 @@ const astroI18n = useAstroI18n(
 	undefined /* custom formatters */,
 )
 
-const actionsMiddleware = defineMiddleware(async (context, next) => {
-	const isFetch = context.request.headers.get('X-Requested-With') === 'XMLHttpRequest';
-
-	if (!isFetch && context.request.method === 'POST' /* && context.url.searchParams.get('action') */) {
-		// get formData
-		const formData = await context.request.formData();
-
-		// create object from formData
-		const data = Object.fromEntries(formData.entries());
-
-		// save it in context.locals
-		context.locals = {
-			...context.locals,
-			form: {
-				data
-			}
-		};
-	}
-
-	return next();
-});
-
-export const onRequest = sequence(astroI18n, actionsMiddleware)
+export const onRequest = sequence(astroI18n)

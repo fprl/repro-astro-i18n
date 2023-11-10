@@ -1,9 +1,6 @@
 ---
 import { astroI18n, t } from 'astro-i18n';
 
-// import action from './_actions';
-import Enhance from './_components/enhance.astro';
-
 import { getHouses } from '~/utils/houses';
 
 import Layout from '~/layouts/Layout.astro';
@@ -11,42 +8,14 @@ import Listings from './_components/listings.svelte';
 import FiltersPersons from './_components/filters.persons.svelte';
 import FiltersBedrooms from './_components/filters.bedrooms.svelte';
 import FiltersDestination from './_components/filters.destination.svelte';
+import Counter from './_components/counter.svelte';
 
-/* 
-  How does this works?
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const destination = formData.get('destination') || 'all';
 
-  1. A user make a post request to the same page where the action points to the name of the function
-  
-  // if the Enhance component is used:
-  2. The function is called and the Astro instance is passed as argument
-  3. The function returns a response
-  4. The client gets the response without reloading the page thanks to the Enhance component
-
-  // if the Enhance component is not used:
-  
- */
-
-const form = Astro.locals.form;
-
-if (
-  !form &&
-  // Astro.url.searchParams.get('action') &&
-  Astro.request.method === 'POST'
-) {
-  // import action from './_actions';
-  const action = await import('./_actions');
-
-  // check if action is a function
-  if (typeof action.default !== 'function') {
-    return new Response(JSON.stringify({ message: 'Action not found' }), {
-      status: 404,
-    });
-  } else {
-    return await action.default(Astro);
-  }
+  return Astro.redirect(`/luxury-villa-rental?destination=${destination}`);
 }
-
-const formData = form?.data;
 
 const searchParams = Astro.url.searchParams;
 // const bedrooms = searchParams.get('filters[bedrooms]');
@@ -61,12 +30,13 @@ const destinations = [
 ---
 
 <Layout title="Search page">
-  <Enhance />
   <main id="search" class="mt-20 pb-8" transition:animate="none">
     <h1>Search page</h1>
 
+    <Counter client:only="svelte" transition:persist />
+
     <div class="mb-8">
-      <form action="?" method="post" class="border p-4 space-y-4">
+      <form action="?" method="POST" class="border p-4 space-y-4">
         <h3>Destination</h3>
 
         {
@@ -95,8 +65,6 @@ const destinations = [
           Search villa
         </button>
       </form>
-
-      {formData && <div>You submitted {formData?.destination}</div>}
     </div>
   </main>
 
