@@ -16,6 +16,7 @@ export const GET = async (Astro: AstroGlobal) => {
 
   return new Response(
     JSON.stringify({ ...results, }), { headers: { "Cache-Control": "s-maxage=60" } }
+    // vercel cache: https://deploy-preview-3527--astro-docs-2.netlify.app/en/guides/incremental-static-regeneration/#vercel
   )
 }
 
