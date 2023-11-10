@@ -1,7 +1,5 @@
 ---
-import { astroI18n, t } from 'astro-i18n';
-
-import { getHouses } from '~/utils/houses';
+import { GET } from './action';
 
 import Layout from '~/layouts/Layout.astro';
 import Listings from './_components/listings.svelte';
@@ -36,7 +34,11 @@ const destinations = [
     <Counter client:only="svelte" transition:persist />
 
     <div class="mb-8">
-      <form action="?" method="POST" class="border p-4 space-y-4">
+      <form
+        action={Astro.url.pathname + '/action'}
+        method="POST"
+        class="border p-4 space-y-4"
+      >
         <h3>Destination</h3>
 
         {
@@ -78,11 +80,7 @@ const destinations = [
     <!-- stream results and hydrate store -->
     {
       async () => {
-        const results = await getHouses(
-          Astro.url.search.slice(1),
-          astroI18n.locale,
-          1,
-        );
+        const results = await GET(Astro).then((res) => res.json());
 
         return (
           <Listings
@@ -95,5 +93,3 @@ const destinations = [
     }
   </div>
 </Layout>
-
- ./_actions

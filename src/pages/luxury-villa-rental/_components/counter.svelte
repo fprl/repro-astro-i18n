@@ -3,6 +3,7 @@
 
   // create a counter that updates every second
   let count = 0;
+  
   const interval = setInterval(() => {
     count += 1;
   }, 1000);
